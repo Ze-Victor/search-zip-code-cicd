@@ -23,7 +23,9 @@ jobs:
       run: go build -v ./...
 
     - name: Run golangci-lint
-      run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest && golangci-lint run
+      run: export PATH=$PATH:$(go env GOPATH)/bin && golangci-lint run
+
+
 
   test:
     runs-on: ubuntu-latest
