@@ -1,0 +1,120 @@
+definitions:
+  pkg.CredentialsAuth:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  pkg.SendErrorAuthResponse:
+    properties:
+      errorCode:
+        type: string
+      message:
+        type: string
+    type: object
+  pkg.SendErrorCEPResponse:
+    properties:
+      errorCode:
+        type: string
+      message:
+        type: string
+    type: object
+  pkg.SendSuccessAuthResponse:
+    properties:
+      token:
+        type: string
+    type: object
+  pkg.SendSuccessCEPResponse:
+    properties:
+      data:
+        $ref: '#/definitions/schemas.Address'
+      message:
+        type: string
+    type: object
+  schemas.Address:
+    properties:
+      cep:
+        type: string
+      city:
+        type: string
+      neighborhood:
+        type: string
+      state:
+        type: string
+      street:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /auth:
+    post:
+      consumes:
+      - application/json
+      description: Generate token jwt for API authorization
+      parameters:
+      - description: Request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/pkg.CredentialsAuth'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.SendSuccessAuthResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/pkg.SendErrorAuthResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/pkg.SendErrorAuthResponse'
+      tags:
+      - Authorization Token
+  /cep/{cep}:
+    get:
+      description: Search Address by CEP
+      parameters:
+      - description: Token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: CEP
+        in: path
+        name: cep
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/pkg.SendSuccessCEPResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/pkg.SendErrorCEPResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/pkg.SendErrorAuthResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/pkg.SendErrorCEPResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/pkg.SendErrorCEPResponse'
+      summary: Search CEP
+      tags:
+      - CEP
+swagger: "2.0"
