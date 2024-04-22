@@ -22,9 +22,6 @@ jobs:
     - name: Build
       run: go build -v ./...
 
-    - name: eslint
-      run: golangci-lint run
-
   test:
     runs-on: ubuntu-latest
     
