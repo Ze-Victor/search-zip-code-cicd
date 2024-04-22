@@ -22,10 +22,8 @@ jobs:
     - name: Build
       run: go build -v ./...
 
-    - name: Run golangci-lint
-      run: export PATH=$PATH:$(go env GOPATH)/bin && golangci-lint run
-
-
+    - name: eslint
+      run: golangci-lint run
 
   test:
     runs-on: ubuntu-latest
