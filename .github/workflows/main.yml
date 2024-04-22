@@ -24,6 +24,18 @@ jobs:
 
     - name: eslint
       run: golangci-lint run
+
+  test:
+    runs-on: ubuntu-latest
     
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    
+    - name: Setup Go
+      uses: actions/setup-go@v2
+      with:
+        go-version-file: go.mod
+
     - name: Run tests
       run: go test -v internal/...
