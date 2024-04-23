@@ -3,12 +3,14 @@ package config
 import (
 	"fmt"
 
+	"os"
+
 	"gorm.io/gorm"
 )
 
 var (
-	Secret_key = "secret-key-token"
-	Base_Path  = "http://localhost:8001/api/v1"
+	Secret_key = os.Getenv("Secret_key")
+	Base_Path  = os.Getenv("Base_Path")
 	Db         *gorm.DB
 )
 
